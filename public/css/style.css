@@ -1,0 +1,128 @@
+body {
+    background-color: #ffe6f2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.chat {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(255, 0, 128, 0.2);
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.inner-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Tin nhan nhan vao */
+.inner-incoming {
+    align-self: flex-start;
+    background: #ffcce0;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 15px 15px 15px 0;
+    max-width: 75%;
+    box-shadow: 0 2px 5px rgba(255, 0, 128, 0.1);
+}
+
+.inner-name {
+    font-weight: bold;
+    color: #cc0066;
+    margin-bottom: 5px;
+}
+
+/* Tin nhan gui di */
+.inner-outgoing {
+    align-self: flex-end;
+    background: #ff99c8;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 15px 15px 0 15px;
+    max-width: 75%;
+    box-shadow: 0 2px 5px rgba(255, 0, 128, 0.2);
+}
+
+/* Noi dung tin nhan */
+.inner-content {
+    word-wrap: break-word;
+}
+
+/* Cuộn nội dung chat */
+.chat .inner-body {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ffb3d9 #ffe6f2;
+}
+
+/* --- Form chat --- */
+.inner-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    background: #fff0f5;
+    padding: 10px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 6px rgba(255, 105, 180, 0.2);
+}
+
+/* Ô nhập nội dung */
+.inner-form input[type="text"] {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    background: white;
+    font-size: 15px;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(255, 105, 180, 0.1);
+}
+
+.inner-form input::placeholder {
+    color: #cc6699;
+}
+
+/* Nút gửi */
+.inner-form button {
+    background-color: #ff66b2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+}
+
+.inner-form button:hover {
+    background-color: #ff3385;
+    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.4);
+    transform: translateY(-1px);
+}
+
+.inner-form button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(255, 105, 180, 0.3);
+}
+
+
+/* Thanh cuộn đẹp hơn (Chrome) */
+.chat .inner-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat .inner-body::-webkit-scrollbar-thumb {
+    background-color: #ff99c8;
+    border-radius: 3px;
+}
+
+.chat .inner-body::-webkit-scrollbar-track {
+    background-color: #ffe6f2;
+}
