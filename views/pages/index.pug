@@ -28,21 +28,24 @@ block main
         // Cột phải - Khu vực chat chính
         .chat-window
             .inner-body
-                .inner-incoming
-                    .inner-name Em Yêu 
-                    .inner-content Anh ơi, sang nhà em nha. Nhà em không có ai.
-                .inner-outgoing
-                    .inner-content Thế à? Oke em yêu.
-                .inner-incoming
-                    .inner-name Em Yêu 
-                    .inner-content Anh đến chưa anh?
-                .inner-outgoing
-                    .inner-content Anh đến rồi, nhưng đâu thấy ai ở nhà đâu em?
-                .inner-incoming
-                    .inner-name Em Yêu 
-                    .inner-content Thì em bảo là không ai ở nhà mà :))
+
+                for chat in chats
+                    div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
+                        if chat.user_id != user.id
+                            .inner-name #{chat.infoUser.fullName} 
+                        .inner-content #{chat.content}
+                //- .inner-outgoing
+                //-     .inner-content Thế à? Oke em yêu.
+                //- .inner-incoming
+                //-     .inner-name Em Yêu 
+                //-     .inner-content Anh đến chưa anh?
+                //- .inner-outgoing
+                //-     .inner-content Anh đến rồi, nhưng đâu thấy ai ở nhà đâu em?
+                //- .inner-incoming
+                //-     .inner-name Em Yêu 
+                //-     .inner-content Thì em bảo là không ai ở nhà mà :))
             .inner-foot
                 form(class='inner-form' action='')
-                    input(type="text" placeholder='Nhập nội dung...' name='content')
+                    input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
                     button
                         i.fa-solid.fa-paper-plane
