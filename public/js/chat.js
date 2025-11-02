@@ -49,3 +49,30 @@ if (chatWindowBody) {
 }
 
 // End croll to bottom chat window
+
+// icon chat
+// show popup
+const buttonIcon = document.querySelector('.button-icon')
+if (buttonIcon) {
+    const tooltip = document.querySelector('.tooltip')
+    Popper.createPopper(buttonIcon, tooltip)
+
+    buttonIcon.onclick = () => {
+        tooltip.classList.toggle('show')
+    }
+}
+// End show popup
+
+// insert icon to input
+const emojiPicker = document.querySelector('emoji-picker')
+if (emojiPicker) {
+    const inputChat = document.querySelector('.inner-form input[name="content"]')
+
+    emojiPicker.addEventListener('emoji-click', event => {
+        const icon = event.detail.unicode
+        inputChat.value += icon
+    })
+}
+
+// End insert icon to input
+// End Emoji Picker

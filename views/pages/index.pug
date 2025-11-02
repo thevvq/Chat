@@ -36,5 +36,10 @@ block main
             .inner-foot
                 form(class='inner-form' action='')
                     input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
+                    span(class='button-icon btn btn-light mx-2') 
+                        i.fa-regular.fa-face-smile
                     button
                         i.fa-solid.fa-paper-plane
+    
+    div(class='tooltip' role='tooltip')
+        emoji-picker

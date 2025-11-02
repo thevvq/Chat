@@ -310,3 +310,15 @@ form .form-group {
 form input::placeholder {
     color: #cc6699;
 }
+
+/* emoji-icon */
+.tooltip {
+    visibility: hidden;
+}
+
+.tooltip.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* End emoji icon */
