@@ -15,3 +15,37 @@ if (formSendData) {
 }
 
 //End Client Send Message
+
+// server-return-message
+socket.on('server-return-message', (data) => {
+    const myID = document.querySelector('.chat-window').getAttribute('my-id')
+    const chatWindow = document.querySelector('.chat-window .inner-body')
+
+    const messageDiv = document.createElement('div')
+
+    let htmlFullName = ''
+
+    if(data.userID == myID){
+        messageDiv.classList.add('inner-outgoing')
+    }else{
+        htmlFullName = `<div class=''inner-name'>${data.fullName}</div>`
+        messageDiv.classList.add('inner-incoming')
+    }
+
+    messageDiv.innerHTML = `
+        ${htmlFullName}
+        <div class='inner-content'>${data.content}</div> 
+    `
+    chatWindow.appendChild(messageDiv)
+    chatWindowBody.scrollTop = chatWindowBody.scrollHeight
+})
+
+// End server-return-message
+
+// scroll to bottom chat window
+const chatWindowBody = document.querySelector('.chat-window .inner-body')
+if (chatWindowBody) {
+        chatWindowBody.scrollTop = chatWindowBody.scrollHeight
+}
+
+// End croll to bottom chat window
