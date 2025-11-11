@@ -1,3 +1,5 @@
+const User = require('../model/accounts.model');
+
 // [GET] /socialDashboard/friendsList
 module.exports.friendsList = async (req, res) => {
     res.render('pages/socialDashboard/friendsList', {
@@ -7,8 +9,16 @@ module.exports.friendsList = async (req, res) => {
 
 // [GET] /socialDashboard/userList
 module.exports.userList = async (req, res) => {
+    const userId = res.locals.user.id;
+
+    const users = await User.find({
+        _id: { $ne: userId },
+        deleted: false
+    }).select('_id avatar fullName');
+
     res.render('pages/socialDashboard/userList', {
-        pageTitle: 'Danh sách người dùng'
+        pageTitle: 'Danh sách người dùng',
+        users: users
     })
 }
 

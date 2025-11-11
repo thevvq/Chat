@@ -13,7 +13,7 @@ const accountSchema = new mongoose.Schema(
         },
         avatar: {
             type: String,
-            default: '../public/images/default-avatar.jpg'
+            default: '/images/default-avatar.jpg'
         },
         deleted: {
             type: Boolean,

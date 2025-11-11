@@ -1,9 +1,8 @@
 extends ./default.pug
-link(rel="stylesheet", href="/css/socialDashboard.css")
 
 block contentList
     .social-menu
-        a(href="/socialDashboard/friendsList")
+        a(href="/socialDashboard/friendsList" class="active")
             i.fa-solid.fa-user-group
             |  Danh sách bạn bè
         a(href="/socialDashboard/userList")
