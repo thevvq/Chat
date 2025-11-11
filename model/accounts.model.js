@@ -15,6 +15,14 @@ const accountSchema = new mongoose.Schema(
             type: String,
             default: '/images/default-avatar.jpg'
         },
+        friendRequests: Array,
+        friendAccepts: Array,
+        friendsList: [
+            {
+                user_id: String,
+                room_chat_id: String
+            }
+        ],
         deleted: {
             type: Boolean,
             default: false
