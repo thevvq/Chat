@@ -1,0 +1,17 @@
+extends ../../layouts/socialDashboard.pug
+
+block main
+    .friends-container
+        h1.title Lời mời đã gửi
+
+        .users-list
+            each user in users
+                .box-user.add
+                    .inner-avatar
+                        img(src=user.avatar alt=user.fullName)
+                    .inner-info
+                        .inner-name= user.fullName
+                        .inner-buttons
+                            button.btn.btn-sm.btn-primary.mr-1(btn-add-friend=user.id) Kết bạn
+                            button.btn.btn-sm.btn-secondary.mr-1(btn-cancel-friend=user.id) Hủy
+                        

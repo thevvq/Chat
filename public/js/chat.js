@@ -21,7 +21,7 @@ if (formSendData) {
                 images: [] //images
             });
             e.target.elements.content.value = '';
-            upload.resetPreviewPanel();
+            // upload.resetPreviewPanel();
             socket.emit('client-typing', 'hidden');
         }
     });

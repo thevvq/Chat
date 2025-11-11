@@ -11,3 +11,17 @@ if (listBtnAddFriend.length > 0){
     })
 }
 // end send friend requests
+
+// cancel friend requests
+const listBtnCancelFriend = document.querySelectorAll('[btn-cancel-friend]')
+if (listBtnCancelFriend.length > 0){
+    listBtnCancelFriend.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.box-user').classList.remove('add')
+            const userID = btn.getAttribute('btn-cancel-friend')
+            
+            socket.emit('client-cancel-friend', userID)
+        })
+    })
+}
+// cancel send friend requests

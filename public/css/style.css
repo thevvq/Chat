@@ -265,6 +265,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: fit-content;
     transition: background 0.3s, box-shadow 0.3s;
+    gap: 8px;
 }
 
 .box-typing:hover {
@@ -276,7 +277,7 @@ body {
 .inner-list-typing.inner-name {
     font-weight: 600;
     color: #222;
-    margin-right: 12px;
+    margin-right: 18px;
     font-size: 14px;
     font-family: "Inter", sans-serif;
 }
