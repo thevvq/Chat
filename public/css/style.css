@@ -332,52 +332,125 @@ body {
 /* end Box Typing */
 
 /* socialDashboard */
+/* ========== SOCIAL DASHBOARD MENU ========== */
 .social-menu {
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
+/* Link mặc định */
 .social-menu a {
     text-decoration: none;
     color: #333;
     font-size: 16px;
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-    padding: 6px 8px;
-    border-radius: 6px;
+    gap: 10px;
+    transition: all 0.25s ease;
+    padding: 10px 12px;
+    border-radius: 10px;
+    position: relative;
 }
 
+/* Hover */
 .social-menu a:hover {
     color: #007bff;
-    background-color: #f0f8ff;
+    background: linear-gradient(90deg, #e8f2ff, #f8fbff);
+    transform: translateX(4px);
 }
 
+/* Icon */
 .social-menu i {
     font-size: 18px;
-    width: 20px;
+    width: 22px;
     text-align: center;
+    opacity: 0.9;
+    transition: color 0.25s ease;
 }
 
-/* Khi có class active */
+/* Link đang active */
 .social-menu a.active {
-    background-color: #007bff1a;
-    /* Màu nền nhẹ */
+    background: linear-gradient(90deg, #007bff1a, #e3f1ff);
     border: 2px solid #007bff;
-    /* Viền màu xanh */
     color: #007bff;
-    /* Chữ xanh */
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-    /* Hiệu ứng sáng xung quanh */
+    box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
+    font-weight: 600;
 }
 
-/* Cho icon trong link active cũng đổi màu */
+/* Icon khi active */
 .social-menu a.active i {
     color: #007bff;
 }
+
+/* Badge hiển thị số lượng lời mời */
+.badge {
+    display: inline-block;
+    background-color: #ff4757;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 2px 8px;
+    margin-left: auto;
+    box-shadow: 0 0 5px rgba(255, 71, 87, 0.4);
+    transition: all 0.3s ease;
+}
+
+/* Badge nhẹ nhàng rung nhẹ khi có thông báo mới */
+@keyframes pulseBadge {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.badge[badge-user-accept] {
+    animation: pulseBadge 1.5s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .social-menu {
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 10px;
+    }
+
+    .social-menu a {
+        flex-direction: column;
+        gap: 4px;
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
+    .social-menu i {
+        font-size: 20px;
+    }
+
+    .badge {
+        position: absolute;
+        top: 4px;
+        right: 6px;
+        padding: 2px 6px;
+        font-size: 10px;
+    }
+}
+
 
 /* end socialDashboard */
 

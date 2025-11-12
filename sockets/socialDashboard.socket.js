@@ -32,6 +32,15 @@ module.exports = (res) => {
                 })
             }
 
+            const infoUserB = await User.findOne({
+                _id: userID
+            })
+            const lengthFriendAccepts = infoUserB.friendAccepts.length
+            socket.broadcast.emit('server-return-length-friend-accept', {
+                userID: userID,
+                lengthFriendAccepts: lengthFriendAccepts
+            })
+
         })
         // Kết thúc chức năng gửi yêu cầu
 

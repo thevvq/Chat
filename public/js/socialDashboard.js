@@ -53,3 +53,15 @@ if (listBtnAcceptFriend.length > 0){
     })
 }
 // end accept friend requests
+
+// server-return-length-friend-accept
+const badgeUserAccept = document.querySelector('[badge-user-accept]')
+if (badgeUserAccept){
+    socket.on('server-return-length-friend-accept', data => {
+        const userID = badgeUserAccept.getAttribute('badge-user-accept')
+        if (userID === data.userID){
+            badgeUserAccept.innerHTML = data.lengthFriendAccepts
+        }
+})
+}
+// end server-return-length-friend-accept

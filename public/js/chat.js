@@ -7,7 +7,6 @@
 
 // Client Send Message
 const formSendData = document.querySelector('.content-view .inner-form');
-console.log('formSendData', formSendData);
 
 if (formSendData) {
     formSendData.addEventListener('submit', (e) => {
