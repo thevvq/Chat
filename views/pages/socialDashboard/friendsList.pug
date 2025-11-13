@@ -4,7 +4,7 @@ block main
     .friends-container
         h1.title Danh sách bạn bè
 
-        .users-list(data-users-accept=user.id)
+        .users-list(data-users-friend=user.id)
             each user in users
                 .box-user(user-id=user.id)
                     .inner-avatar

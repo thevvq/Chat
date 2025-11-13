@@ -1,7 +1,7 @@
 const Chat = require('../model/chat.model')
 
 module.exports = (res) => {
-    const userID = res.locals.user._id
+    const userID = res.locals.user.id
     const fullName = res.locals.user.fullName
 
     _io.once('connection', (socket) => {

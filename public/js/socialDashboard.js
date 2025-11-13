@@ -167,3 +167,16 @@ socket.on('server-return-user-cancel-friend', data => {
     }
 })
 // end server-return-user-cancel-friend
+
+// server-return-user-status-online
+socket.on('server-return-user-status-online', data => {
+    console.log(data.userID)
+    const dataUsersFriend = document.querySelector('[data-users-friend]')
+    if (dataUsersFriend){
+        const boxUser = dataUsersFriend.querySelector(`[user-id='${data.userID}']`)
+        if(boxUser){
+            boxUser.querySelector('[status]').setAttribute('status', data.status)
+        }
+    }
+})
+// end server-return-user-status-online
