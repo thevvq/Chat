@@ -75,6 +75,7 @@ if (dataUserAccept){
             // Vẽ user ra giao diện
             const div = document.createElement('div')
             div.classList.add('box-user')
+            div.setAttribute('user-id', data.infoUserA._id)
             
             div.innerHTML = `
                 <div class="inner-avatar">
@@ -140,3 +141,17 @@ if (dataUserAccept){
     })
 }
 // end server-return-info-friend-accept
+
+// server-return-user-cancel-friend
+socket.on('server-return-user-cancel-friend', data => {
+    const userIDA = data.userIDA
+    const myUserID = document.querySelector('[data-users-accept]').getAttribute('data-users-accept')
+    if (data.userID == myUserID){
+        const boxUserRemove = document.querySelector(`[user-id='${userIDA}']`)
+        if (boxUserRemove){
+            const dataUserAccept = document.querySelector('[data-users-accept]')
+            dataUserAccept.removeChild(boxUserRemove)
+        }
+    }
+})
+// end server-return-user-cancel-friend

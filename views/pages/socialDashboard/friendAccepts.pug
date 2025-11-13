@@ -6,7 +6,7 @@ block main
 
         .users-list(data-users-accept=user.id)
             each user in users
-                .box-user
+                .box-user(user-id=user.id)
                     .inner-avatar
                         img(src=user.avatar alt=user.fullName)
                     .inner-info
