@@ -5,6 +5,64 @@
 // });
 // end file-upload-with-preview
 
+// add class active cho sidebar
+// public/js/chat.js
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+    const sidebarLinks = document.querySelectorAll('.sidebar .chat-list li a');
+
+    sidebarLinks.forEach(link => {
+        // Tự động active theo URL
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+
+        // Xử lý click
+        link.addEventListener('click', function(e) {
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+// end add class active cho sidebar
+
+// add class active cho menu social
+document.addEventListener('DOMContentLoaded', () => {
+    const menuLinks = document.querySelectorAll('.social-menu a');
+    const currentPath = window.location.pathname;
+
+    // Hàm xóa active
+    const removeActive = () => {
+        menuLinks.forEach(link => link.classList.remove('active'));
+    };
+
+    // Hàm thêm active
+    const addActive = (link) => {
+        removeActive();
+        link.classList.add('active');
+    };
+
+    // Tự động active theo URL
+    menuLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPath || (currentPath.startsWith(href) && href !== '/')) {
+            addActive(link);
+        }
+
+        // Bắt click
+        link.addEventListener('click', function(e) {
+            // Nếu dùng route không reload (SPA), bỏ preventDefault
+            // e.preventDefault();
+            addActive(this);
+
+            // Nếu dùng route thật (reload), không cần làm gì thêm
+        });
+    });
+});
+// end add class active cho menu social
+
 // Client Send Message
 const formSendData = document.querySelector('.content-view .inner-form');
 

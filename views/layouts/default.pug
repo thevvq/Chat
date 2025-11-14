@@ -12,15 +12,14 @@ html
             // Cột trái - Danh sách bạn bè / nhóm
             .sidebar
                 ul.chat-list
-                    li 
-                        a(href="/")
+                    li
+                        a.active(href="/")
                             i.fa-solid.fa-comment
                             span Tin nhắn
-                    li.active  
+                    li 
                         a(href="/socialDashboard/friendsList")
                             i.fa-solid.fa-user-group
                             span Liên hệ
-                ul.chat-list
                     li 
                         a(href="/settings")
                             i.fa-solid.fa-gear                
@@ -45,5 +44,5 @@ html
         //- file-upload-with-preview
         script(src="https://unpkg.com/file-upload-with-preview/dist/index.js") 
 
-        //- script  
+        //- script 
         block script
