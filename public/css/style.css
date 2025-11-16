@@ -109,6 +109,90 @@ body {
     font-weight: 600;
 }
 
+/* Conversation item */
+.conversation {
+    display: block;
+    padding: 12px 14px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(215, 123, 201, 0.06);
+    text-decoration: none;
+    color: #222;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.conversation:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(215, 123, 201, 0.12);
+}
+
+.conversation strong {
+    display: block;
+    color: #3b1a4b;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.conversation span {
+    color: #666;
+    font-size: 13px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* lastPreview small label */
+.conversation .last-preview {
+    font-size: 12px;
+    color: #8a6aa0;
+    margin-top: 6px;
+}
+
+/* main welcome / notification */
+.main-welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    color: #5b2b60;
+}
+
+.main-welcome h3 {
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.main-welcome p {
+    font-size: 15px;
+    color: #6b4a6b;
+    max-width: 560px;
+}
+
+/* small badge for notifications */
+.notif-badge {
+    display: inline-block;
+    min-width: 22px;
+    padding: 4px 8px;
+    font-size: 12px;
+    background: #ff4757;
+    color: #fff;
+    border-radius: 999px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(255, 71, 87, 0.12);
+}
+
+/* Ensure content-list takes full height and scrolls internally on small screens */
+.content-list {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+}
+
 /* ====================== CONTENT VIEW ====================== */
 .content-view {
     display: flex;

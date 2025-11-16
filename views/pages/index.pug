@@ -2,41 +2,68 @@ extends ../layouts/default.pug
 
 block contentList
     h4 Cuộc trò chuyện gần đây
-    .conversation
-        strong Em Yêu:
-        span Anh ơi, sáng qua sao chưa rep em 😢
-    .conversation
-        strong Minh Phú:
-        span Gửi file chưa ông?
+    if rooms && rooms.length > 0
+        each room in rooms
+            - // Tìm user còn lại nếu là phòng bạn bè
+            - var roomName = ''
+            - var otherUser = null
+            - var myId = (user && user.id) ? user.id.toString() : (user && user._id ? user._id.toString() : '')
 
+            if room.typeRoom === 'friend' && room.users && room.users.length === 2
+                - otherUser = room.users.find(u => u.user_id_str !== myId)
+                - roomName = otherUser && otherUser.fullName ? otherUser.fullName : 'Bạn bè'
+            else if room.typeRoom === 'group'
+                - roomName = `Nhóm (${room.users ? room.users.length : 0} thành viên)`
+            else
+                - roomName = room.typeRoom || 'Phòng chat'
+
+            a(href=`/${room._id}` class='conversation' data-room-id=room._id)
+                strong #{roomName}
+
+                if room.lastPreview
+                    - const sender = room.lastPreview.sender || ''
+                    - const content = room.lastPreview.content || ''
+                    span #{sender}: #{content}
+    else
+        .conversation
+            strong Không có cuộc trò chuyện nào
+            span Tạo phòng mới hoặc đợi lời mời
 
 block main
-    .inner-body(my-id=user.id)
-        for chat in chats
-            div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
-                if chat.user_id != user.id
-                    .inner-name #{chat.infoUser.fullName} 
-                if (chat.content)
-                    .inner-content #{chat.content}
-                if chat.images.length > 0
-                    .inner-images
-                        for image in chat.images
-                            img(src=image alt="image" class="chat-image")
-                //- .inner-time #{chat.createdAt.toLocaleString('vi-VN')}
-        .inner-list-typing
-    
-    //- .inner-preview-images
-    //-     div(class="custom-file-container" data-upload-id="upload-images")
+    if !currentRoomID
+        .main-welcome
+            h3 Chào mừng bạn đến với Chat!
+            p Chọn một cuộc trò chuyện ở bên trái để bắt đầu hoặc tạo phòng mới.
+    else
+        .inner-body(my-id=user.id)
+            for chat in chats
+                div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
+                    if chat.user_id != user.id
+                        if chat.infoUser
+                            .inner-name #{chat.infoUser.fullName}
+                        else
+                            .inner-name Không rõ
+                    if (chat.content)
+                        .inner-content #{chat.content}
+                    if chat.images && chat.images.length > 0
+                        .inner-images
+                            for image in chat.images
+                                img(src=image alt="image" class="chat-image")
 
-    .inner-foot
-        form(class='inner-form' action='')
-            input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
-            //- label(class='button-icon btn btn-light mx-2')
-            //-     i.fa-solid.fa-image
-            span(class='button-icon btn btn-light mx-2') 
-                i.fa-regular.fa-face-smile
-            button
-                i.fa-solid.fa-paper-plane
+            .inner-list-typing
+        
+        //- .inner-preview-images
+        //-     div(class="custom-file-container" data-upload-id="upload-images")
 
-    div(class='tooltip' role='tooltip')
-        emoji-picker
+        .inner-foot
+            form(class='inner-form' action='')
+                input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
+                //- label(class='button-icon btn btn-light mx-2')
+                //-     i.fa-solid.fa-image
+                span(class='button-icon btn btn-light mx-2') 
+                    i.fa-regular.fa-face-smile
+                button
+                    i.fa-solid.fa-paper-plane
+
+        div(class='tooltip' role='tooltip')
+            emoji-picker
