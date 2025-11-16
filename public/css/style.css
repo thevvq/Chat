@@ -504,7 +504,14 @@ body {
     display: inline-block;
 }
 
-/* ====================== TYPING INDICATOR ====================== */
+/*Box Typing */
+.inner-list-typing {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+/* Box chính */
 .box-typing {
     display: flex;
     align-items: center;
@@ -513,8 +520,30 @@ body {
     padding: 10px 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: fit-content;
+    transition: background 0.3s, box-shadow 0.3s;
     gap: 8px;
-    animation: fadeIn 0.3s ease;
+}
+
+.box-typing:hover {
+    background: #e9f0ff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Tên người đang gõ */
+.inner-list-typing.inner-name {
+    font-weight: 600;
+    color: #222;
+    margin-right: 12px;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+}
+
+/* Dots nhấp nháy */
+.inner-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
 .inner-dots span {
@@ -524,6 +553,7 @@ body {
     background-color: #555;
     border-radius: 50%;
     opacity: 0.3;
+    transform: scale(1);
     animation: blink 1.4s infinite ease-in-out;
 }
 
@@ -539,6 +569,7 @@ body {
     animation-delay: 0.4s;
 }
 
+/* Animation nhảy mượt */
 @keyframes blink {
 
     0%,
@@ -554,14 +585,4 @@ body {
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* end Box Typing */

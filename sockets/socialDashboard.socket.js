@@ -1,4 +1,5 @@
 const User = require('../model/accounts.model')
+const RoomChat = require('../model/rooms-chat.model')
 
 module.exports = (res) => {
     _io.once('connection', socket => {
@@ -137,12 +138,32 @@ module.exports = (res) => {
         socket.on('client-accept-friend', async (userID) => {
             const myUserID = res.locals.user.id
 
-            // Thêm {user_id, room_chat_id} của B vào trong A
-            // Xóa B trong friendAccepts của A
             const hasUserIDBinA = await User.findOne({
                 _id: myUserID,
                 friendAccepts: userID
             })
+            const hasUserIDAinB = await User.findOne({
+                _id: userID,
+                friendRequests: myUserID
+            })
+
+            // Tạo room chat giữa 2 người A và B
+            let roomChat
+            if (hasUserIDBinA && hasUserIDAinB){
+                const dataRoom = {
+                    typeRoom: 'friend',
+                    users: [
+                        {user_id: userID},
+                        {user_id: myUserID}
+                    ]
+                }
+                roomChat = new RoomChat(dataRoom)
+                await roomChat.save()
+            }
+
+            // Thêm {user_id, room_chat_id} của B vào trong A
+            // Xóa B trong friendAccepts của A
+
             if (hasUserIDBinA){
                 await User.updateOne({
                     _id: myUserID
@@ -150,7 +171,7 @@ module.exports = (res) => {
                     $push: {
                         friendsList: {
                             user_id: userID,
-                            room_chat_id: ''
+                            room_chat_id: roomChat.id
                         }
                     },
                     $pull: {friendAccepts: userID}
@@ -158,11 +179,6 @@ module.exports = (res) => {
             }
             // Thêm {user_id, room_chat_id} của A vào trong B
             // Xóa A trong friendRequests của B
-            const hasUserIDAinB = await User.findOne({
-                _id: userID,
-                friendRequests: myUserID
-            })
-
             if (hasUserIDAinB){
                 await User.updateOne({
                     _id: userID
@@ -170,7 +186,7 @@ module.exports = (res) => {
                     $push: {
                         friendsList: {
                             user_id: myUserID,
-                            room_chat_id: ''
+                            room_chat_id: roomChat.id
                         }
                     },
                     $pull: {friendRequests: myUserID}

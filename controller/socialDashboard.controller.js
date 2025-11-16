@@ -20,6 +20,11 @@ module.exports.friendsList = async (req, res) => {
         deleted: false
     }).select('_id avatar fullName statusOnline');
 
+    for (const user of users) {
+        const friendInfo = friendsList.find(friend => friend.user_id == user.id)
+        user.friendInfo = friendInfo
+    }
+
     res.render('pages/socialDashboard/friendsList', {
         pageTitle: 'Danh sách bạn bè',
         users: users

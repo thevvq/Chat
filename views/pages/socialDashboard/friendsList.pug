@@ -12,6 +12,6 @@ block main
                     .inner-info
                         .inner-name= user.fullName
                         .inner-buttons
-                            a.btn.btn-sm.btn-primary.mr-1(href='#' btn-accept-friend=user.id) Nhắn tin
+                            a.btn.btn-sm.btn-primary.mr-1(href=`/${user.friendInfo.room_chat_id}` btn-accept-friend=user.id) Nhắn tin
                     .inner-status(status=user.statusOnline)
                         i.fa-solid.fa-circle

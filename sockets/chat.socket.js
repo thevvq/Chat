@@ -1,10 +1,13 @@
 const Chat = require('../model/chat.model')
 
-module.exports = (res) => {
+module.exports = (req, res) => {
     const userID = res.locals.user.id
     const fullName = res.locals.user.fullName
+    const roomChatID = req.params.roomChatID;
 
     _io.once('connection', (socket) => {
+        socket.join(roomChatID)
+
         socket.on('client-send-message', async (content) => {
             let images = []
 
@@ -15,13 +18,14 @@ module.exports = (res) => {
 
             const chat = new Chat({
                 user_id: userID,
+                room_id: roomChatID,
                 content: content.content,
                 images: images
 
             })
             await chat.save()
 
-            _io.emit('server-return-message', {
+            _io.to(roomChatID).emit('server-return-message', {
                 userID: userID,
                 fullName: fullName,
                 content: content.content,
@@ -31,7 +35,7 @@ module.exports = (res) => {
 
         // Typing
         socket.on('client-typing', async (type) => {
-            socket.broadcast.emit('server-return-typing', {
+            socket.broadcast.to(roomChatID).emit('server-return-typing', {
                 user_id: userID,
                 fullName: fullName,
                 type: type
