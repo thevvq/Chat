@@ -1,6 +1,10 @@
 extends ../layouts/default.pug
 
 block contentList
+
+    //- Nút Logout ở góc phải
+    a(href="/auth/logout" style="float:right; color:red; font-weight:bold; margin: 10px;") Đăng xuất
+
     h4 Cuộc trò chuyện gần đây
     if rooms && rooms.length > 0
         each room in rooms
