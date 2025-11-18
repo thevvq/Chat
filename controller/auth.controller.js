@@ -1,100 +1,117 @@
 const User = require('../model/accounts.model');
 const md5 = require('md5');
+const sendEmail = require('../scripts/sendEmail');
 
 // [GET] /auth/register
 module.exports.register = async (req, res) => {
-    res.render('pages/auth/register', {
-        pageTitle: 'Đăng ký'
-    })
+    res.render('pages/auth/register', { pageTitle: 'Đăng ký' })
 }
 
-// [Post] /auth/register
+// [POST] /auth/register
 module.exports.registerPost = async (req, res) => {
-    const emailExist = await User.findOne({
-        email: req.body.email,
-        deleted: false
-    });
+    const emailExist = await User.findOne({ email: req.body.email, deleted: false });
 
     if (emailExist) {
-        res.redirect('back');
-        return;
+        req.flash('error', 'Email đã tồn tại.');
+        return res.redirect('back');
     }
 
     req.body.password = md5(req.body.password);
-
     const record = new User(req.body)
     await record.save();
-    res.redirect('/auth/login');
+
+    // Gửi email xác thực
+    const verifyLink = `http://localhost:${process.env.PORT}/auth/verify-email?token=${record.verifyToken}`;
+    await sendEmail(
+        record.email,
+        'Xác thực tài khoản Chat App',
+        `<p>Nhấn vào link để xác thực: <a href="${verifyLink}">${verifyLink}</a></p>`
+    );
+
+    // Render email sent page
+    return res.render('pages/auth/emailSent', {
+        pageTitle: 'Xác thực email',
+        message: `Chúng tôi đã gửi email xác thực tới ${record.email}`
+    });
+}
+
+// [GET] /auth/verify-email
+module.exports.verifyEmail = async (req, res) => {
+    const { token } = req.query;
+    const user = await User.findOne({ verifyToken: token });
+
+    if (!user) {
+        return res.render('pages/auth/verifyFailed', {
+            pageTitle: 'Xác thực thất bại',
+            message: 'Liên kết xác thực không hợp lệ hoặc đã hết hạn.'
+        });
+    }
+
+    user.verified = true;
+    user.verifyToken = null;
+    await user.save();
+
+    res.render('pages/auth/verified', { pageTitle: 'Xác thực thành công' });
+}
+
+// [GET] /auth/resend-email
+module.exports.resendEmail = async (req, res) => {
+    const email = req.query.email;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        req.flash('error', 'Email không tồn tại.');
+        return res.redirect('/auth/login');
+    }
+
+    if (user.verified) {
+        req.flash('success', 'Email đã được xác thực.');
+        return res.redirect('/auth/login');
+    }
+
+    // Gửi lại email xác thực
+    const verifyLink = `http://localhost:${process.env.PORT}/auth/verify-email?token=${user.verifyToken}`;
+    await sendEmail(
+        user.email,
+        'Xác thực tài khoản Chat App',
+        `<p>Nhấn vào link để xác thực: <a href="${verifyLink}">${verifyLink}</a></p>`
+    );
+
+    res.render('pages/auth/emailSent', {
+        pageTitle: 'Gửi lại email xác thực',
+        message: `Email xác thực đã được gửi lại tới ${email}`
+    });
 }
 
 // [GET] /auth/login
 module.exports.login = async (req, res) => {
-    if (req.cookies.token) {
-        return  res.redirect('/');
-    }
-    
-    res.render('pages/auth/login', {
-        pageTitle: 'Đăng nhập'
-    })
+    if (req.cookies.token) return res.redirect('/');
+    res.render('pages/auth/login', { pageTitle: 'Đăng nhập' })
 }
 
 // [POST] /auth/login
 module.exports.loginPost = async (req, res) => {
     const { email, password } = req.body;
+    const user = await User.findOne({ email, deleted: false });
 
-    const user = await User.findOne({
-        email: email,  
-        deleted: false 
-    });
-    if (!user) {
-        res.redirect('back');
-        return;
-    }
-    if (md5(password) !== user.password) {
-        res.redirect('back');
-        return;
-    }
+    if (!user) return res.render('pages/auth/login', { pageTitle: 'Đăng nhập', message: 'Email hoặc mật khẩu không đúng.' })
+    if (md5(password) !== user.password) return res.render('pages/auth/login', { pageTitle: 'Đăng nhập', message: 'Email hoặc mật khẩu không đúng.', email })
+    if (!user.verified) return res.render('pages/auth/login', { pageTitle: 'Đăng nhập', message: 'Vui lòng xác thực email trước khi đăng nhập.' })
 
     res.cookie('token', user.token)
-
-    await User.updateOne({
-        token: user.token
-    }, {
-        statusOnline: 'online'
-    })
-
-    _io.once('connection', (socket) => {
-        socket.broadcast.emit('server-return-user-status-online', {
-            userID: user.id,
-            status: 'online'
-        })
-    })
-
-    res.redirect('/');
-
+    await User.updateOne({ token: user.token }, { statusOnline: 'online' })
+    if (global._io) global._io.emit('server-return-user-status-online', { userID: user.id, status: 'online' })
+    return res.redirect('/')
 }
 
 // [GET] /auth/logout
 module.exports.logout = async (req, res) => {
     const token = req.cookies.token;
-
-    // Tìm user từ token hiện tại
-    const user = await User.findOne({ token: token });
-
+    const user = await User.findOne({ token });
     if (user) {
-        // Cập nhật trạng thái offline
-        await User.updateOne({ token: token }, { statusOnline: 'offline' });
-
-        // Thông báo cho mọi client khác biết user này offline
-        _io.emit('server-return-user-status-online', {
-            userID: user.id,
-            status: 'offline'
-        });
+        await User.updateOne({ token }, { statusOnline: 'offline' });
+        if (global._io) global._io.emit('server-return-user-status-online', { userID: user.id, status: 'offline' });
     }
-
-    // Xoá cookie đăng nhập
     res.clearCookie('token');
-
-    // Điều hướng về trang đăng nhập
     res.redirect('/auth/login');
-};
+}

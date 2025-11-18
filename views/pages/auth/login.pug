@@ -5,16 +5,19 @@ block main
         .login-box
             h1.text-center.mb-4 Đăng nhập
 
+            if message
+                .alert.alert-warning= message
             form(action="/auth/login" method="POST")
                 .form-group.mb-4
                     label.form-label(for="email") Email
-                    input#email.form-control(type="email", name="email", required, autofocus)
+                    - var emailVal = typeof email !== 'undefined' ? email : ''
+                    input#email.form-control(type="email", name="email", required, autofocus, value=emailVal)
 
                 .form-group.mb-4
                     label.form-label(for="password") Mật khẩu
                     input#password.form-control(type="password", name="password", required)
 
                 .d.d-flex.justify-content-between.align-items-center.flex-wrap.gap-3
-                    button.btn.btn-login(type="submit") Đăng nhập
+                    button.btn.btn-login(type='submit') Đăng nhập
                     a.btn.btn-register(href="/auth/register") Đăng ký
 

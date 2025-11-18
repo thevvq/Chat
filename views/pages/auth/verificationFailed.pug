@@ -1,0 +1,13 @@
+extends ../../layouts/auth.pug
+
+block main
+  .verification-failed
+    h1 Xác thực thất bại
+    if message
+      p= message
+    else
+      p Liên kết xác thực không hợp lệ hoặc đã hết hạn.
+    p
+      a.btn(href='/auth/register') Đăng ký lại
+      |  
+      a.btn(href='/auth/login') Đến trang đăng nhập

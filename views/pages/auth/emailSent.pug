@@ -1,0 +1,10 @@
+extends ../../layouts/auth.pug
+
+block main
+  h1 Email xác thực đã được gửi
+  if message
+    p= message
+  else
+    p Vui lòng kiểm tra hộp thư của bạn và nhấp vào link để xác thực tài khoản.
+  p
+    a.btn(href='/auth/login') Đến trang đăng nhập
