@@ -846,3 +846,18 @@ body {
     }
 }
 /* end Box Typing */
+/* ====================== CHAT IMAGE (ẢNH GỬI TRONG TIN NHẮN) ====================== */
+
+.inner-images {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chat-image {
+    width: 180px;
+    max-width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,

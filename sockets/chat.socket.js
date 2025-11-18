@@ -1,5 +1,4 @@
 const Chat = require('../model/chat.model');
-const uploadToCloundinary = require('../helper/uploadToCloudinary');
 
 module.exports = (_io) => {
   _io.on('connection', (socket) => {
@@ -12,34 +11,33 @@ module.exports = (_io) => {
       socket.join(roomChatID);
       console.log(`[socket] ${socket.id} joined room ${roomChatID} (user: ${userID})`);
 
-      // Nhận tin nhắn từ client
-      socket.on('client-send-message', async (content) => {
-        console.log(`[message] ${userID} sent to room ${roomChatID}:`, content.content);
+      // ⭐ CLIENT GỬI TIN NHẮN (TEXT + IMAGE URL)
+      socket.on('client-send-message', async (data) => {
+        console.log(`[message] ${userID} -> room ${roomChatID}:`, data);
 
-        let images = [];
-        for (const imageBuffer of content.images || []) {
-          const linkImage = await uploadToCloundinary(imageBuffer);
-          images.push(linkImage);
-        }
+        const content = data.content || "";
+        const images = data.images || []; // client đã upload → gửi URL
 
+        // Lưu vào DB
         const chat = new Chat({
           user_id: userID,
           room_id: roomChatID,
-          content: content.content,
+          content: content,
           images: images,
         });
+
         await chat.save();
 
-        // Broadcast message cho tất cả user trong room
+        // Gửi lại tin nhắn cho toàn room
         _io.to(roomChatID).emit('server-return-message', {
           userID,
           fullName,
-          content: content.content,
+          content,
           images,
         });
       });
 
-      // Typing event
+      // ⭐ SỰ KIỆN ĐANG GÕ
       socket.on('client-typing', (type) => {
         socket.broadcast.to(roomChatID).emit('server-return-typing', {
           user_id: userID,
@@ -47,7 +45,7 @@ module.exports = (_io) => {
           type,
         });
       });
-    });
 
+    });
   });
 };
