@@ -8,27 +8,35 @@ module.exports = (req, res) => {
     _io.once('connection', (socket) => {
         socket.join(roomChatID)
 
-        socket.on('client-send-message', async (content) => {
+        socket.on('client-send-message', async (data) => {
+
+            let messageText = ""
             let images = []
 
-            for (const imageBuffer of content.images) {
-                const linkImage = await uploadToCloundinary(imageBuffer)
-                images.push(linkImage)
+            // Nếu là TEXT
+            if (data.type === "text") {
+                messageText = data.content
             }
 
+            // Nếu là IMAGE
+            if (data.type === "image" && data.images) {
+                images = data.images   // URL image từ multer
+            }
+
+            // Lưu vào database
             const chat = new Chat({
                 user_id: userID,
                 room_id: roomChatID,
-                content: content.content,
+                content: messageText,
                 images: images
-
             })
             await chat.save()
 
+            // Gửi lại cho mọi client trong phòng
             _io.to(roomChatID).emit('server-return-message', {
                 userID: userID,
                 fullName: fullName,
-                content: content.content,
+                content: messageText,
                 images: images
             })
         })

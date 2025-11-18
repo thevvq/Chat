@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const http = require('http')
 const { Server } = require("socket.io")
 
+const imageRoute = require('./route/imageRoute')
+
 const app = express()
 const port = 3000
 
@@ -12,6 +14,8 @@ app.set('views', './views')
 app.set('view engine', 'pug')
 
 app.use(express.static('public'))
+app.use('/uploads', express.static('public/uploads'))
+
 
 database.connect()
 
@@ -29,6 +33,8 @@ const io = new Server(server)
 
 global._io = io
 // End Socket IO
+
+app.use('/api', imageRoute)
 
 // Route
 route(app)

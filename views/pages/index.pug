@@ -5,30 +5,28 @@ block contentList
     h4 Cuộc trò chuyện gần đây
     if rooms && rooms.length > 0
         each room in rooms
-            - // Tìm user còn lại nếu là phòng bạn bè
             - var roomName = ''
             - var otherUser = null
-            - var myId = (user && user.id) ? user.id.toString() : (user && user._id ? user._id.toString() : '')
+            - var myId = (user && user.id) ? user.id.toString() : ''
 
             if room.typeRoom === 'friend' && room.users && room.users.length === 2
                 - otherUser = room.users.find(u => u.user_id_str !== myId)
-                - roomName = otherUser && otherUser.fullName ? otherUser.fullName : 'Bạn bè'
+                - roomName = otherUser ? otherUser.fullName : 'Bạn bè'
             else if room.typeRoom === 'group'
-                - roomName = `Nhóm (${room.users ? room.users.length : 0} thành viên)`
+                - roomName = `Nhóm (${room.users.length} thành viên)`
             else
                 - roomName = room.typeRoom || 'Phòng chat'
 
-            a(href=`/${room._id}` class='conversation' data-room-id=room._id)
+            a(href=`/${room._id}` class='conversation')
                 strong #{roomName}
 
                 if room.lastPreview
-                    - const sender = room.lastPreview.sender || ''
-                    - const content = room.lastPreview.content || ''
-                    span #{sender}: #{content}
+                    span #{room.lastPreview.sender}: #{room.lastPreview.content}
     else
         .conversation
             strong Không có cuộc trò chuyện nào
             span Tạo phòng mới hoặc đợi lời mời
+
 
 block main
     if !currentRoomID
@@ -39,32 +37,74 @@ block main
         .inner-body(my-id=user.id)
             for chat in chats
                 div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
-                    if chat.user_id != user.id
-                        if chat.infoUser
-                            .inner-name #{chat.infoUser.fullName}
-                        else
-                            .inner-name Không rõ
-                    if (chat.content)
+                    if chat.user_id != user.id && chat.infoUser
+                        .inner-name #{chat.infoUser.fullName}
+
+                    if chat.content
                         .inner-content #{chat.content}
+
                     if chat.images && chat.images.length > 0
                         .inner-images
                             for image in chat.images
                                 img(src=image alt="image" class="chat-image")
 
             .inner-list-typing
-        
-        //- .inner-preview-images
-        //-     div(class="custom-file-container" data-upload-id="upload-images")
 
         .inner-foot
-            form(class='inner-form' action='')
+            form(class='inner-form' action='' enctype="multipart/form-data")
+                input(type="file" id="imageInput" accept="image/*" hidden)
+                label(for="imageInput" class="button-icon btn btn-light mx-2")
+                    i.fa-solid.fa-image
+
                 input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
-                //- label(class='button-icon btn btn-light mx-2')
-                //-     i.fa-solid.fa-image
+
                 span(class='button-icon btn btn-light mx-2') 
                     i.fa-regular.fa-face-smile
-                button
+
+                button(type="submit")
                     i.fa-solid.fa-paper-plane
 
         div(class='tooltip' role='tooltip')
             emoji-picker
+
+block script
+    script.
+        const socket = _io;
+
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const res = await fetch("/api/upload-image", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await res.json();
+            return data.imageUrl;
+        }
+
+        document.getElementById("imageInput").addEventListener("change", async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const url = await uploadImage(file);
+
+            socket.emit("client-send-message", {
+                type: "image",
+                images: [url],
+            });
+        });
+
+        document.querySelector(".inner-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = document.querySelector("input[name='content']");
+            if (!input.value.trim()) return;
+
+            socket.emit("client-send-message", {
+                type: "text",
+                content: input.value
+            });
+
+            input.value = "";
+        });
