@@ -77,11 +77,23 @@ block main
         // .inner-foot: Chứa ô nhập. Nó phải nằm NGAY SAU .inner-body và CÙNG CẤP.
         .inner-foot
             form(class='inner-form' action='')
+                // NÚT CHỌN ẢNH (BẠN PHẢI THÊM)
+                label.upload-image-btn(for="chat-upload-image")
+                    i.fa-regular.fa-image
+                input#chat-upload-image(type="file" accept="image/*" style="display:none")
+
+                // Ô NHẬP CHAT CỦA BẠN (GIỮ NGUYÊN)
                 input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
+
+                // ICON EMOJI (GIỮ NGUYÊN)
                 span(class='button-icon btn btn-light mx-2') 
                     i.fa-regular.fa-face-smile
+
+                // NÚT GỬI (GIỮ NGUYÊN)
                 button
                     i.fa-solid.fa-paper-plane
 
+            // TOOLTIP (GIỮ NGUYÊN)
             div(class='tooltip' role='tooltip')
                 emoji-picker
+
