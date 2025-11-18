@@ -76,19 +76,25 @@ module.exports.loginPost = async (req, res) => {
 
 // [GET] /auth/logout
 module.exports.logout = async (req, res) => {
-    await User.updateOne({
-        token: req.cookies.token
-    },{
-        statusOnline: 'offline'
-    })
+    const token = req.cookies.token;
 
-    _io.once('connection', (socket) => {
-        socket.broadcast.emit('server-return-user-status-online', {
-            userID: res.locals.user.id,
+    // Tìm user từ token hiện tại
+    const user = await User.findOne({ token: token });
+
+    if (user) {
+        // Cập nhật trạng thái offline
+        await User.updateOne({ token: token }, { statusOnline: 'offline' });
+
+        // Thông báo cho mọi client khác biết user này offline
+        _io.emit('server-return-user-status-online', {
+            userID: user.id,
             status: 'offline'
-        })
-    })
+        });
+    }
 
+    // Xoá cookie đăng nhập
     res.clearCookie('token');
+
+    // Điều hướng về trang đăng nhập
     res.redirect('/auth/login');
-}
+};
