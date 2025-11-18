@@ -3,9 +3,7 @@ const socialDashBoardSocket = require('../sockets/socialDashboard.socket')
 
 // [GET] /socialDashboard/friendsList
 module.exports.friendsList = async (req, res) => {
-    // socket
-    socialDashBoardSocket(res)
-    // end socket    
+    // socket initialized at server start; nothing to do here
 
     const userID = res.locals.user.id;
     const myUser = await User.findOne({
@@ -33,9 +31,6 @@ module.exports.friendsList = async (req, res) => {
 
 // [GET] /socialDashboard/userList
 module.exports.userList = async (req, res) => {
-    // socket
-    socialDashBoardSocket(res)
-    // end socket
 
 
     const userID = res.locals.user.id;
@@ -74,9 +69,6 @@ module.exports.userList = async (req, res) => {
 
 // [GET] /socialDashboard/friendRequests
 module.exports.friendRequests = async (req, res) => {
-    // socket
-    socialDashBoardSocket(res)
-    // end socket    
 
     const userID = res.locals.user.id;
     const myUser = await User.findOne({
@@ -98,9 +90,6 @@ module.exports.friendRequests = async (req, res) => {
 
 // [GET] /socialDashboard/friendAccepts
 module.exports.friendAccepts = async (req, res) => {
-    // socket
-    socialDashBoardSocket(res)
-    // end socket    
 
     const userID = res.locals.user.id;
     const myUser = await User.findOne({

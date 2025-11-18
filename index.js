@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 const { Server } = require("socket.io");
 const chatSocket = require('./sockets/chat.socket');
+const socialDashboardSocket = require('./sockets/socialDashboard.socket');
+const presenceSocket = require('./sockets/presence.socket');
 
 const app = express();
 const port = 3000;
@@ -25,6 +27,10 @@ global._io = io;
 
 // Khởi tạo socket
 chatSocket(io);
+// presence must be initialized to manage online/offline
+presenceSocket(io);
+// social dashboard socket handlers (use authenticated socket.userId)
+socialDashboardSocket(io);
 
 // Route
 route(app);

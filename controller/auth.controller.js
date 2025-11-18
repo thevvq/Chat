@@ -63,12 +63,7 @@ module.exports.loginPost = async (req, res) => {
         statusOnline: 'online'
     })
 
-    _io.once('connection', (socket) => {
-        socket.broadcast.emit('server-return-user-status-online', {
-            userID: user.id,
-            status: 'online'
-        })
-    })
+    // PresenceSocket will notify clients on socket connection.
 
     res.redirect('/');
 
