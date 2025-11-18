@@ -81,6 +81,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // end add class active cho menu social
 
+// Upload ảnh khi chọn file
+const inputImage = document.getElementById('chat-upload-image');
+
+if (inputImage) {
+    inputImage.addEventListener('change', async () => {
+        const file = inputImage.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const res = await fetch('/upload-image', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.imageUrl) {
+            socket.emit('client-send-message', {
+                content: '',
+                images: [data.imageUrl]
+            });
+        }
+
+        inputImage.value = "";
+    });
+}
+
 // Client Send Message
 const formSendData = document.querySelector('.content-view .inner-form');
 

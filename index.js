@@ -1,3 +1,5 @@
+const multer = require('multer');
+const path = require('path');
 const express = require('express');
 const route = require('./route/index.route');
 const database = require('./config/database');
@@ -17,6 +19,32 @@ database.connect();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+
+// ---------- MULTER UPLOAD CONFIG ----------
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/uploads');   // Folder lưu ảnh
+  },
+  filename: function(req, file, cb) {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, unique + path.extname(file.originalname)); // Tạo tên file mới
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// API upload ảnh
+app.post('/upload-image', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image uploaded' });
+  }
+
+  const imageUrl = '/uploads/' + req.file.filename;
+  res.json({ imageUrl });
+});
+// ------------------------------------------------------
+
 
 // Socket IO
 const server = http.createServer(app);
