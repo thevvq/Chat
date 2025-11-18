@@ -1,10 +1,13 @@
-/* Full màn hình + gradient hồng tím */
+/* ====================== PHẦN LOGIN/REGISTER (auth.css) ====================== */
+
+/* Full màn hình + gradient Xanh Tím Đồng Bộ */
 html,
 body {
     height: 100%;
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ff8cd8, #d77bc9, #a55eea);
+    /* Đã thay gradient Hồng Tím bằng Xanh Tím Tối */
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
     overflow: hidden;
 }
 
@@ -17,16 +20,16 @@ body {
     padding: 20px;
 }
 
-/* Khung form - kích thước cố định đẹp */
+/* Khung form - Glassmorphism */
 .login-box {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     border-radius: 28px;
-    box-shadow: 0 20px 50px rgba(215, 123, 201, 0.35);
+    /* Điều chỉnh box-shadow tông xanh tím */
+    box-shadow: 0 20px 50px rgba(62, 136, 255, 0.35); 
     padding: 50px 55px;
     width: 100%;
     max-width: 460px;
-    /* Đẹp trên mọi màn hình */
     border: 1px solid rgba(255, 255, 255, 0.3);
     animation: fadeIn 0.8s ease-out;
 }
@@ -34,37 +37,45 @@ body {
 /* Tiêu đề */
 h1 {
     font-weight: 700;
-    color: #a13d8f;
+    /* Đã thay màu hồng (#a13d8f) bằng màu Xanh Tím (#3e88ff) */
+    color: #3e88ff; 
     font-size: 2.4rem;
-    text-shadow: 0 2px 8px rgba(161, 61, 143, 0.2);
+    /* Điều chỉnh text-shadow tông xanh tím */
+    text-shadow: 0 2px 8px rgba(62, 136, 255, 0.2);
 }
 
 /* Label */
 .form-label {
     font-weight: 600;
-    color: #a13d8f;
+    /* Đã thay màu hồng (#a13d8f) bằng màu Xanh Tím (#3e88ff) */
+    color: #3e88ff; 
 }
 
 /* Input */
 .form-control {
-    border: 2px solid #f1c6e6;
+    /* Đã thay màu border (#f1c6e6) bằng màu xanh tím nhạt */
+    border: 2px solid #a6c0ff;
     border-radius: 16px;
     padding: 14px 18px;
     font-size: 16px;
-    background-color: #fdf2fa;
+    /* Đã thay màu nền (#fdf2fa) bằng màu trắng nhạt */
+    background-color: #f2f6ff;
     transition: all 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: #ff8cd8;
-    box-shadow: 0 0 0 5px rgba(255, 140, 216, 0.3);
+    /* Đã thay màu focus (#ff8cd8) bằng màu Tím */
+    border-color: #7b38d6;
+    /* Điều chỉnh box-shadow tông tím */
+    box-shadow: 0 0 0 5px rgba(123, 56, 214, 0.3);
     background-color: #fff;
     transform: scale(1.02);
 }
 
 /* Nút Đăng nhập */
 .btn-login {
-    background: linear-gradient(135deg, #ff8cd8, #da68c5);
+    /* Đã thay gradient Hồng Tím bằng Xanh Tím */
+    background: linear-gradient(135deg, #7b38d6, #3e88ff); 
     color: white;
     border: none;
     padding: 14px 36px;
@@ -72,19 +83,22 @@ h1 {
     font-weight: 600;
     font-size: 16px;
     min-width: 140px;
-    box-shadow: 0 8px 20px rgba(218, 104, 197, 0.4);
+    /* Điều chỉnh box-shadow tông xanh tím */
+    box-shadow: 0 8px 20px rgba(62, 136, 255, 0.4);
     transition: all 0.3s ease;
 }
 
 .btn-login:hover {
-    background: linear-gradient(135deg, #ff6fcf, #c45bb5);
+    /* Điều chỉnh gradient và shadow khi hover */
+    background: linear-gradient(135deg, #602db5, #3172c9); 
     transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(218, 104, 197, 0.5);
+    box-shadow: 0 15px 30px rgba(62, 136, 255, 0.6);
 }
 
 /* Nút Đăng ký */
 .btn-register {
-    background: linear-gradient(135deg, #d77bc9, #a55eea);
+    /* Đã thay gradient Hồng Tím bằng Xanh Tím Đậm (tông màu thứ cấp) */
+    background: linear-gradient(135deg, #3e88ff, #1a1a2e); 
     color: white;
     border: none;
     padding: 14px 36px;
@@ -95,14 +109,16 @@ h1 {
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    box-shadow: 0 8px 20px rgba(165, 94, 234, 0.4);
+    /* Điều chỉnh box-shadow tông tối */
+    box-shadow: 0 8px 20px rgba(26, 26, 46, 0.4);
     transition: all 0.3s ease;
 }
 
 .btn-register:hover {
-    background: linear-gradient(135deg, #c45bb5, #8b68b9);
+    /* Điều chỉnh gradient và shadow khi hover */
+    background: linear-gradient(135deg, #3172c9, #0f162a);
     transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(165, 94, 234, 0.5);
+    box-shadow: 0 15px 30px rgba(26, 26, 46, 0.6);
     color: white;
 }
 
