@@ -13,28 +13,28 @@ block contentList
                 img#avatarPreview(src=user.avatar alt="Avatar hiện tại" class='avatar') 
                 
                 .upload-control-group 
-        label.form-label(for="avatarInput") Chọn ảnh đại diện
-        .file-input-wrapper-list 
-            // Nút "Tải lên"
-            label(for="avatarInput" class="file-button") Tải lên 
-            // Input file bị ẩn
-            input(type="file" name="avatar" id="avatarInput")
-            
+                    // Label cho "Chọn ảnh đại diện" (đã được căn giữa bằng CSS)
+                    label.form-label(for="avatarInput") Chọn ảnh đại diện
+                    .file-input-wrapper-list 
+                        // Nút "Tải lên"
+                        label(for="avatarInput" class="file-button") Tải lên 
+                        // Input file bị ẩn
+                        input(type="file" name="avatar" id="avatarInput")
+                        
             // 2. Họ và tên
             .form-group
-                label.form-label(for="fullName") Họ và tên
-                // Đã loại bỏ class Bootstrap .form-control, để CSS Glassmorphism tự xử lý
-                input(type="text" name="fullName" id="fullName" value=user.fullName required)
+                // ĐÃ SỬA: Xóa label, dùng placeholder và hiển thị giá trị hiện tại
+                input(type="text" name="fullName" id="fullName" value=user.fullName placeholder="Họ và tên" required)
                 
             // 3. Email
             .form-group
-                label.form-label(for="email") Email
-                input(type="email" name="email" id="email" value=user.email required disabled) 
+                // ĐÃ SỬA: Xóa label, dùng placeholder, hiển thị giá trị và XÓA disabled
+                input(type="email" name="email" id="email" value=user.email placeholder="Email" required) 
                 
             // 4. Số điện thoại
             .form-group
-                label.form-label(for="numberPhone") Số điện thoại
-                input(type="tel" name="numberPhone" id="numberPhone" value=user.numberPhone placeholder="Nhập số điện thoại")
+                // ĐÃ SỬA: Xóa label, dùng placeholder và hiển thị giá trị hiện tại
+                input(type="tel" name="numberPhone" id="numberPhone" value=user.numberPhone placeholder="Số điện thoại")
                 
             // 5. Nút Lưu
             // Dùng class .btn.btn-primary và thêm .w-100 để nút rộng hết cỡ
