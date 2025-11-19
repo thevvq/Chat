@@ -175,12 +175,12 @@ body {
     -webkit-text-fill-color: unset;
     color: var(--accent-color-light);
     /* Màu TRẮNG SÁNG */
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     /* CỠ CHỮ LỚN */
     font-weight: 700;
     /* ĐỘ ĐẬM CHUẨN */
     text-transform: uppercase;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 0px rgba(249, 249, 245, 0.957);
     /* Ánh sáng trắng nhẹ */
 }
 
@@ -190,7 +190,7 @@ body {
     align-items: center;
     padding: 14px 16px;
     /* Nền card chat trong suốt */
-    background: rgba(15, 52, 96, 0.4);
+    background: rgba(65, 65, 193, 0.82);
     ;
     border-radius: 14px;
     box-shadow: var(--shadow-light);
@@ -925,19 +925,19 @@ body {
     margin-bottom: 20px;
     /* Dùng lại định kiểu tiêu đề lớn đã có */
     color: var(--accent-color-light); 
-    font-size: 1.50rem;
+    font-size: 1.75rem;
     font-weight: 700;
     text-shadow: 0 0 0px rgba(255, 255, 255, 0.4);
 }
 
 /* Form Group & Input */
 .profile-edit-container-list .form-group {
-    margin-bottom: 15px; /* Đã có gap ở container */
+    margin-bottom: 20px; /* Đã có gap ở container */
 }
 
 /* SỬA LỖI CĂN GIỮA CHO LABEL */
 .profile-edit-container-list .form-group label {
-    font-size: 0.9rem; /* Chữ nhỏ hơn */
+    font-size: 1.1rem; /* Chữ nhỏ hơn */
     color: var(--text-muted);
     font-weight: 500;
     margin-bottom: 5px;
@@ -955,7 +955,7 @@ body {
     /* ĐÃ SỬA LỖI CÚ PHÁP: Dùng giá trị RGB */
     background: rgba(15, 52, 96, 0.3);
     color: var(--text-light);
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     outline: none;
     transition: all 0.3s ease;
 }
@@ -966,7 +966,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 17px;
 }
 
 .avatar-preview-list .avatar {
@@ -1021,7 +1021,7 @@ body {
 /* Nút Lưu thay đổi */
 .profile-edit-container-list button[type="submit"] {
     padding: 10px 15px;
-    font-size: 1rem;
+    font-size: 1.25rem;
     border-radius: 10px;
     margin-top: 20px;
     background: var(--accent-gradient);
@@ -1054,7 +1054,7 @@ body {
 }
 
 .profile-right-panel-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--accent-color-light);
     margin-bottom: 20px;
@@ -1062,7 +1062,7 @@ body {
 }
 
 .profile-right-panel p {
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 1.6;
     margin-bottom: 15px;
     max-width: 400px;
@@ -1108,7 +1108,6 @@ body {
     /* Khôi phục lại kiểu chữ lớn hơn (từ 14px lên 16px) */
     font-size: 23px; 
     padding: 8px 18px; 
-    
-    /* Ghi đè font-size và padding để đảm bảo kích thước đồng đều */
+
 }
 /* end Box Typing */
