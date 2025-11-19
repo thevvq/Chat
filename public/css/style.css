@@ -352,14 +352,14 @@ body {
 
 .inner-name {
     /* ĐÃ SỬA: Màu TRẮNG SÁNG và text-shadow trắng */
-    font-size: 25px !important;
+    font-size: 24px !important;
     color: var(--text-light) !important;
     text-shadow: none;
     background: none;
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
-    padding-left: 5px;
-    font-weight: 600;
+    padding-left: 4px;
+    font-weight: 500;
 }
 
 .inner-incoming .inner-name {
