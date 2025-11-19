@@ -132,7 +132,7 @@ socket.on('server-return-info-friend-accept', data => {
             const btnAccept = div.querySelector('[btn-accept-friend]')
             btnAccept.addEventListener('click', () => {
                 btnAccept.closest('.box-user').classList.add('accepted')
-                const userID = btn.getAttribute('btn-accept-friend')
+                const userID = btnAccept.getAttribute('btn-accept-friend')
                 
                 socket.emit('client-accept-friend', userID)
             })
@@ -170,7 +170,6 @@ socket.on('server-return-user-cancel-friend', data => {
 
 // server-return-user-status-online
 socket.on('server-return-user-status-online', data => {
-    console.log(data.userID)
     const dataUsersFriend = document.querySelector('[data-users-friend]')
     if (dataUsersFriend){
         const boxUser = dataUsersFriend.querySelector(`[user-id='${data.userID}']`)

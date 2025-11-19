@@ -5,13 +5,13 @@ block main
         h1.title Danh sách bạn bè
 
         .users-list(data-users-friend=user.id)
-            each user in users
-                .box-user(user-id=user.id)
+            each u in users
+                .box-user(user-id=u.id)
                     .inner-avatar
-                        img(src=user.avatar alt=user.fullName)
+                        img(src=u.avatar alt=u.fullName)
                     .inner-info
-                        .inner-name= user.fullName
+                        .inner-name= u.fullName
                         .inner-buttons
-                            a.btn.btn-sm.btn-primary.mr-1(href=`/${user.friendInfo.room_chat_id}` btn-accept-friend=user.id) Nhắn tin
-                    .inner-status(status=user.statusOnline)
+                            a.btn.btn-sm.btn-primary.mr-1(href=`/${u.friendInfo.room_chat_id}`) Nhắn tin
+                    .inner-status(status=u.statusOnline)
                         i.fa-solid.fa-circle

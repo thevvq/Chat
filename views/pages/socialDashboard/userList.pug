@@ -5,13 +5,12 @@ block main
         h1.title Danh sách người dùng
 
         .users-list(data-user-list=user.id)
-            each user in users
-                .box-user(user-id=user.id)
+            each u in users
+                .box-user(user-id=u.id)
                     .inner-avatar
-                        img(src=user.avatar alt=user.fullName)
+                        img(src=u.avatar alt=u.fullName)
                     .inner-info
-                        .inner-name= user.fullName
+                        .inner-name= u.fullName
                         .inner-buttons
-                            button.btn.btn-sm.btn-primary.mr-1(btn-add-friend=user.id) Kết bạn
-                            button.btn.btn-sm.btn-secondary.mr-1(btn-cancel-friend=user.id) Hủy
-                        
+                            button.btn.btn-sm.btn-primary.mr-1(btn-add-friend=u.id) Kết bạn
+                            button.btn.btn-sm.btn-secondary.mr-1(btn-cancel-friend=u.id) Hủy

@@ -5,14 +5,14 @@ block main
         h1.title Lời mời kết bạn
 
         .users-list(data-users-accept=user.id)
-            each user in users
-                .box-user(user-id=user.id)
+            each u in users
+                .box-user(user-id=u.id)
                     .inner-avatar
-                        img(src=user.avatar alt=user.fullName)
+                        img(src=u.avatar alt=u.fullName)
                     .inner-info
-                        .inner-name= user.fullName
+                        .inner-name= u.fullName
                         .inner-buttons
-                            button.btn.btn-sm.btn-primary.mr-1(btn-accept-friend=user.id) Chấp nhận
-                            button.btn.btn-sm.btn-secondary.mr-1(btn-refuse-friend=user.id) Xóa
+                            button.btn.btn-sm.btn-primary.mr-1(btn-accept-friend=u.id) Chấp nhận
+                            button.btn.btn-sm.btn-secondary.mr-1(btn-refuse-friend=u.id) Xóa
                             button.btn.btn-sm.btn-secondary.mr-1(btn-deleted-friend disabled) Đã xóa
                             button.btn.btn-sm.btn-primary.mr-1(btn-accepted-friend disabled) Đã chấp nhận
