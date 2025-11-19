@@ -1034,4 +1034,81 @@ body {
     opacity: 0.9;
     box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
 }
+/* ====================== PROFILE RIGHT PANEL (Nội dung cột phải) ====================== */
+.profile-right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa nội dung theo chiều ngang */
+    justify-content: center; /* Căn giữa nội dung theo chiều dọc */
+    height: 100%; /* Đảm bảo chiếm hết chiều cao */
+    padding: 30px;
+    text-align: center;
+    color: var(--text-muted); /* Màu chữ nhạt */
+    /* Hiệu ứng Glassmorphism nhẹ */
+    background: rgba(15, 52, 96, 0.2); /* Nền hơi trong suốt (dùng giá trị RGB đã sửa) */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-deep);
+    border-radius: 0 15px 15px 0; /* (Tùy chọn: Bo góc bên phải nếu muốn) */
+}
+
+.profile-right-panel-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color-light);
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Hiệu ứng sáng nhẹ */
+}
+
+.profile-right-panel p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+/* Kiểu cho icon bảo mật */
+.profile-security-icon {
+    font-size: 80px;
+    color: var(--accent-color-end); /* Màu xanh */
+    margin-top: 30px;
+    opacity: 0.7;
+    text-shadow: 0 0 15px rgba(37, 117, 252, 0.5);
+}
+/* ====================== FRIEND REQUEST BUTTONS (Điều chỉnh kích thước tổng thể) ====================== */
+
+/* Điều chỉnh kích thước chung cho các nút trong card/item lời mời kết bạn */
+.friend-request-card button,
+.friend-request-item button,
+.box-user .inner-buttons button { /* Thêm selector .box-user để nhắm mục tiêu chính xác */
+    /* Dùng giá trị lớn hơn (16px) thay cho giá trị cũ (13px/14px) */
+    font-size: 20px; 
+    /* Tăng padding chung cho các nút */
+    padding: 8px 18px;
+    border-radius: 10px;
+}
+
+/* Nút "Chấp nhận" (Thường là màu Primary/Gradient) */
+.btn-accept,
+.friend-request-accept,
+.box-user .inner-buttons button[btn-accept-friend] {
+    /* Đảm bảo chữ to và đậm */
+    font-size: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+}
+
+/* Nút "Xóa" hoặc "Hủy" (Nút chữ nhỏ, trong suốt) */
+/* Selector này sẽ ghi đè lên .btn-text-sm hoặc .btn-secondary đã nhỏ hơn */
+.btn-delete,
+.friend-request-delete,
+.box-user .inner-buttons button[btn-refuse-friend],
+.box-user .inner-buttons button[btn-cancel-friend] {
+    /* Khôi phục lại kiểu chữ lớn hơn (từ 14px lên 16px) */
+    font-size: 23px; 
+    padding: 8px 18px; 
+    
+    /* Ghi đè font-size và padding để đảm bảo kích thước đồng đều */
+}
 /* end Box Typing */
