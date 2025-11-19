@@ -1,23 +1,44 @@
 extends ../../layouts/default
 
 block contentList
-    h3 Chỉnh sửa thông tin cá nhân
-    form(action="/profile/edit" method="POST" enctype="multipart/form-data")
-        .mb-3
-            label.form-label(for="fullName") Họ và tên
-            input.form-control(type="text" name="fullName" id="fullName" value=user.fullName required)
-        .mb-3
-            label.form-label(for="email") Email
-            input.form-control(type="email" name="email" id="email" value=user.email required)
-        .mb-3
-            label.form-label(for="numberPhone") Số điện thoại
-            input.form-control(type="text" name="numberPhone" id="numberPhone" value=user.numberPhone)
-        .mb-3
-            label.form-label(for="avatar") Chọn ảnh đại diện
-            input.form-control(type="file" name="avatar" id="avatarInput")
-            br
-            img#avatarPreview(src=user.avatar alt="Avatar hiện tại" width="100" height="100" style="border-radius:50%; object-fit:cover; margin-top:10px;")
-        button.btn.btn-primary(type="submit") Lưu thay đổi
+    // Dùng container mới để áp dụng CSS Glassmorphism cho Sidebar
+    .profile-edit-container-list 
+        h3 Chỉnh sửa thông tin cá nhân
+
+        form(action="/profile/edit" method="POST" enctype="multipart/form-data")
+            
+            // 1. Avatar Preview & Upload
+            .form-group.avatar-preview-list
+                // Ảnh đại diện hiện tại (Dùng class 'avatar' để lấy viền gradient)
+                img#avatarPreview(src=user.avatar alt="Avatar hiện tại" class='avatar') 
+                
+                .upload-control-group 
+        label.form-label(for="avatarInput") Chọn ảnh đại diện
+        .file-input-wrapper-list 
+            // Nút "Tải lên"
+            label(for="avatarInput" class="file-button") Tải lên 
+            // Input file bị ẩn
+            input(type="file" name="avatar" id="avatarInput")
+            
+            // 2. Họ và tên
+            .form-group
+                label.form-label(for="fullName") Họ và tên
+                // Đã loại bỏ class Bootstrap .form-control, để CSS Glassmorphism tự xử lý
+                input(type="text" name="fullName" id="fullName" value=user.fullName required)
+                
+            // 3. Email
+            .form-group
+                label.form-label(for="email") Email
+                input(type="email" name="email" id="email" value=user.email required disabled) 
+                
+            // 4. Số điện thoại
+            .form-group
+                label.form-label(for="numberPhone") Số điện thoại
+                input(type="tel" name="numberPhone" id="numberPhone" value=user.numberPhone placeholder="Nhập số điện thoại")
+                
+            // 5. Nút Lưu
+            // Dùng class .btn.btn-primary và thêm .w-100 để nút rộng hết cỡ
+            button.btn.btn-primary.w-100(type="submit") Lưu thay đổi
 
 block script 
     script(src="/js/profile.js")

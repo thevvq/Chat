@@ -907,5 +907,136 @@ body {
         transform: scale(1.4);
     }
 }
+/* ====================== PROFILE FORM (Trong CONTENT LIST HẸP) ====================== */
+
+/* Container chính trong Sidebar */
+.profile-edit-container-list {
+    /* Đảm bảo nó chiếm toàn bộ chiều rộng/chiều cao của content-list */
+    height: 100%; 
+    padding: 10px 15px; /* Giảm padding */
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Khoảng cách giữa các form-group */
+}
+
+/* Tiêu đề */
+.profile-edit-container-list h3 {
+    margin-bottom: 20px;
+    /* Dùng lại định kiểu tiêu đề lớn đã có */
+    color: var(--accent-color-light); 
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+/* Form Group & Input */
+.profile-edit-container-list .form-group {
+    margin-bottom: 0; /* Đã có gap ở container */
+}
+
+.profile-edit-container-list .form-group label {
+    font-size: 0.9rem; /* Chữ nhỏ hơn */
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.profile-edit-container-list input:not([type="file"]) {
+    width: 100%;
+    padding: 10px 12px; /* Padding nhỏ hơn cho sidebar */
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    background: rgba(var(--bg-secondary), 0.3);
+    color: var(--text-light);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Avatar Preview */
+.avatar-preview-list {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.avatar-preview-list .avatar {
+    width: 70px; /* Kích thước nhỏ hơn */
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* Viền gradient đã được định nghĩa cho class .avatar trong conversation */
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.avatar-preview-list .avatar:hover {
+    transform: scale(1.05);
+}
+.upload-control-group {
+    text-align: center; 
+    width: 100%; 
+}
+/* Custom File Upload */
+.file-input-wrapper-list {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.file-input-wrapper-list input[type="file"] {
+    display: none;
+}
+
+/* Nút "Tải lên" */
+.file-input-wrapper-list .file-button {
+    /* Chiều rộng cố định cho nút */
+    width: 100px; /* Tăng nhẹ chiều rộng cho nút có vẻ nổi bật hơn */
+    padding: 8px 15px; /* Tăng padding */
+    display: block; /* Quan trọng: Biến label thành block để chiếm hết chiều rộng 100px */
+    margin: 0 auto; /* Căn giữa nút trong khối .file-input-wrapper-list nếu cần */
+    
+    /* Các thuộc tính Glassmorphism khác giữ nguyên */
+    background: var(--accent-gradient);
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(37, 117, 252, 0.3);
+}
+
+.file-input-wrapper-list .file-name {
+    display: none; /* Đảm bảo text "Tối đa 2MB" biến mất */
+}
+/* Nút Lưu thay đổi */
+.profile-edit-container-list button[type="submit"] {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    margin-top: 20px;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.profile-edit-container-list button[type="submit"]:hover {
+    opacity: 0.9;
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+}
+.profile-edit-container-list .form-group {
+    margin-bottom: 0;
+}
+
+/* SỬA LỖI CĂN GIỮA: Thêm text-align: center; */
+.profile-edit-container-list .form-group label {
+    font-size: 0.9rem; /* Chữ nhỏ hơn */
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 5px;
+    
+    display: block; /* Chiếm hết chiều rộng */
+    text-align: center; /* Căn giữa văn bản bên trong */
+}
 
 /* end Box Typing */
