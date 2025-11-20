@@ -326,3 +326,14 @@ if (elementListTyping) {
     });
 }
 // End Server Return Typing
+
+
+// Confirm hủy kết bạn
+document.querySelectorAll('[btn-cancel-friend], [btn-deleted-friend], [btn-refuse-friend]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        if (!confirm('Bạn có chắc chắn muốn hủy kết bạn không?')) {
+            e.preventDefault();
+        }
+    });
+});
+// End Confirm hủy kết bạn

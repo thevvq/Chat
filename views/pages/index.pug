@@ -35,59 +35,76 @@ block contentList
             strong Không có cuộc trò chuyện nào
             span Tạo phòng mới hoặc đợi lời mời
 
-block main
+bblock main
     if !currentRoomID
         .main-welcome
-            h3 Chào mừng bạn đến với Chat!
-            p Chọn một cuộc trò chuyện ở bên trái để bắt đầu hoặc tạo phòng mới.
+            // Avatar lớn + hiệu ứng glow nhẹ
+            .welcome-avatar
+                if user && user.avatar
+                    img(src=user.avatar alt=user.fullName)
+                else
+                    img(src='/images/default-avatar.jpg' alt='Avatar')
+
+            h3 Chào mừng bạn trở lại, #{user ? user.fullName.split(' ')[0] : 'bạn'}!
+            p.text-muted.mt-3 
+                | Hiện tại chưa có cuộc trò chuyện nào đang diễn ra.
+                br
+                | Hãy chọn một người bạn hoặc tạo phòng chat mới ngay nào!
+
+            // 2 nút CTA nổi bật, đúng chuẩn theme
+            .welcome-actions.mt-4
+                a.btn.btn-primary.btn-lg(href="/friends" title="Tìm bạn bè")
+                    i.fa-solid.fa-user-plus.me-2
+                    | Tìm bạn bè
+                a.btn.btn-outline-light.btn-lg.ms-3(href="/rooms/new" title="Tạo phòng chat")
+                    i.fa-solid.fa-comment-dots.me-2
+                    | Tạo phòng chat
+
+            // Hiệu ứng hạt rơi nhẹ (tùy chọn, rất chill)
+            .welcome-particles
+                - for (let i = 0; i < 30; i++)
+                    span.particle
+
     else
-        // .inner-body: Chứa toàn bộ nội dung chat và Box Typing
-        // Nó sẽ giãn nở (flex: 1) để đẩy .inner-foot xuống dưới
+        // ─── PHẦN CHAT ĐÃ CÓ PHÒNG (giữ nguyên logic cũ nhưng fix nhỏ) ───
         .inner-body(my-id=user.id my-name=user.fullName)
             for chat in chats
-                // Tin nhắn đi/đến (inner-outgoing/inner-incoming)
-                div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
+                div(class=chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming')
 
                     if chat.user_id != user.id
-                        // Thẻ Avatar
                         if chat.infoUser && chat.infoUser.avatar
                             img(src=chat.infoUser.avatar alt=chat.infoUser.fullName class='chat-avatar')
                         else
                             img(src='/images/default-avatar.jpg' alt='Avatar mặc định' class='chat-avatar')
 
-                    // Thẻ bọc để nhóm Tên và Nội dung
-                    .message-group 
+                    .message-group
                         if chat.user_id != user.id
                             if chat.infoUser
                                 .inner-name #{chat.infoUser.fullName}
                             else
                                 .inner-name Không rõ
 
-                        if (chat.content)
-                            .inner-content #{chat.content}
+                        if chat.content
+                            .inner-content !{chat.content}   
 
                         if chat.images && chat.images.length > 0
                             .inner-images
                                 for image in chat.images
-                                    img(src=image alt="image" class="chat-image")
+                                    img(src=image alt="Hình ảnh" class="chat-image")
 
-            // Đảm bảo .inner-list-typing nằm trong .inner-body để cuộn theo tin nhắn
-            .inner-list-typing
+            .inner-list-typing   
 
-        // .inner-foot: Chứa ô nhập. Nó phải nằm NGAY SAU .inner-body và CÙNG CẤP.
+        // Footer nhập tin nhắn (giữ nguyên + thêm class cho dễ style)
         .inner-foot
-            form(class='inner-form' action='')
+            form.inner-form(action='' autocomplete="off")
+                input(type="text" placeholder='Aa...' name='content')
                 
-
-                input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
-             
-                span(class='button-icon btn btn-light mx-2' title='Emoji') 
+                label.btn-emoji(for="emoji-picker-toggle" title="Chọn emoji")
                     i.fa-regular.fa-face-smile
+                input#emoji-picker-toggle(type="checkbox" hidden)
                 
-                button(type='submit')
+                button(type='submit' title="Gửi")
                     i.fa-solid.fa-paper-plane
 
-            
-            // Khối này đã được sửa lỗi cú pháp. Dùng JS để quản lý pop-up Emoji Picker.
-            div(class='tooltip' role='tooltip')
-                emoji-picker
+            // Emoji picker (dùng thư viện emoji-picker-element hoặc lite-version)
+            <emoji-picker class="light"></emoji-picker>

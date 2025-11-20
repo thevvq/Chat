@@ -1,4 +1,4 @@
-============= RESET & BASE ====================== */
+
 * {
 margin: 0;
 padding: 0;
@@ -1283,4 +1283,55 @@ transform: scale(1.4);
         left: 0;
         width: 100%;
     }
+}
+
+/* ====================== NÚT PHÁ HOẠI (DESTRUCTIVE) - FIX CHÍNH ====================== */
+.btn-destructive {
+    background: linear-gradient(90deg, #e91e63 0%, #f50057 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 2px 10px rgba(233, 30, 99, 0.4);
+    font-weight: 600;
+    min-width: 100px; /* Đảm bảo không bị nhỏ quá, khó bấm nhầm */
+}
+
+.btn-destructive:hover {
+    background: linear-gradient(90deg, #c2185b 0%, #d5004d 100%) !important;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Đặc biệt: nút "Hủy kết bạn" phải là destructive, KHÔNG được để secondary xám! */
+.box-user [btn-cancel-friend],
+.box-user [btn-deleted-friend],
+.box-user [btn-refuse-friend] {
+    background: linear-gradient(90deg, #e91e63 0%, #f50057 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 2px 10px rgba(233, 30, 99, 0.4);
+    font-weight: 600;
+}
+
+.box-user [btn-cancel-friend]:hover,
+.box-user [btn-deleted-friend]:hover,
+.box-user [btn-refuse-friend]:hover {
+    background: linear-gradient(90deg, #c2185b 0%, #d5004d 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.6);
+}
+/* ====================== SIDEBAR (Thanh bên trái) ====================== */
+/* Tăng độ tương phản chữ trong box-user */
+.inner-name {
+    font-size: 20px;
+    color: #ffffff !important;  /* Ép trắng sáng hoàn toàn */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* Đảm bảo nút không bị co nhỏ quá */
+.box-user .btn {
+    padding: 10px 16px !important;
+    min-height: 44px; /* Apple HIG: touch target tối thiểu 44px */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
