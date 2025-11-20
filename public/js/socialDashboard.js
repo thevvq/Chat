@@ -54,6 +54,25 @@ if (listBtnAcceptFriend.length > 0){
 }
 // end accept friend requests
 
+// Chọn tất cả nút hủy kết bạn (chưa có thì tạo)
+const listBtnUnfriend = document.querySelectorAll('[btn-unfriend]');
+if (listBtnUnfriend.length > 0) {
+    listBtnUnfriend.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (!confirm('Bạn có chắc chắn muốn hủy kết bạn?')) return;
+            
+            const friendID = btn.getAttribute('btn-unfriend');
+
+            // Gửi event socket
+            socket.emit('client-unfriend', friendID);
+
+            // Xóa luôn UI của mình
+            btn.closest('.box-user').remove();
+        });
+    });
+}
+// End chọn tất cả nút hủy kết bạn
+
 // server-return-length-friend-accept
 const badgeUserAccept = document.querySelector('[badge-user-accept]')
 if (badgeUserAccept){
@@ -137,6 +156,7 @@ socket.on('server-return-info-friend-accept', data => {
                 socket.emit('client-accept-friend', userID)
             })
             // Hết chấp nhận lời mời kết bạn
+
         }
     }
 

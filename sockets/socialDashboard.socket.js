@@ -125,6 +125,31 @@ module.exports = (io) => {
         }
       });
 
+      // --- Event: hủy kết bạn (unfriend) ---
+      socket.on('client-unfriend', async (friendID) => {
+        try {
+          // Xóa bạn khỏi friendsList của cả 2 người
+          await User.updateOne(
+            { _id: myUserID },
+            { $pull: { friendsList: { user_id: friendID } } }
+          );
+          await User.updateOne(
+            { _id: friendID },
+            { $pull: { friendsList: { user_id: myUserID } } }
+          );
+          
+          // Gửi thông báo real-time cho friend
+          socket.broadcast.emit('server-return-user-unfriend', {
+            userID: friendID,   // người bị hủy
+            unfriendID: myUserID // người hủy
+          });
+
+        } catch (err) {
+          console.error('[socialSocket] client-unfriend error', err);
+        }
+      });
+
+
     } catch (err) {
       console.error('[socialSocket] connection error', err);
     }

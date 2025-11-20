@@ -13,5 +13,6 @@ block main
                         .inner-name= u.fullName
                         .inner-buttons
                             a.btn.btn-sm.btn-primary.mr-1(href=`/${u.friendInfo.room_chat_id}`) Nhắn tin
+                            button.btn.btn-sm.btn-danger.mr-1(btn-unfriend=u.id) Hủy kết bạn
                     .inner-status(status=u.statusOnline)
                         i.fa-solid.fa-circle
