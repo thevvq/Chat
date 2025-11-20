@@ -107,10 +107,15 @@ module.exports.index = async (req, res) => {
 
             for (const chat of chats) {
                 const info = await Account.findById(chat.user_id)
-                    .select("fullName")
+                    .select("fullName avatar")
                     .lean()
-                chat.infoUser = info || { fullName: "Người dùng" }
+
+                chat.infoUser = info || { 
+                    fullName: "Người dùng",
+                    avatar: "/images/default-avatar.jpg"
+                }
             }
+
         } catch (e) {
             chats = []
         }
