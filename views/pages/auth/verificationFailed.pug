@@ -1,13 +1,14 @@
 extends ../../layouts/auth.pug
 
 block main
-  .verification-failed
-    h1 Xác thực thất bại
-    if message
-      p= message
-    else
-      p Liên kết xác thực không hợp lệ hoặc đã hết hạn.
-    p
-      a.btn(href='/auth/register') Đăng ký lại
-      |  
-      a.btn(href='/auth/login') Đến trang đăng nhập
+  .auth-wrapper
+    .auth-card.auth-error
+      .auth-icon(role='img' aria-hidden='true') ❌
+      h1 Xác thực thất bại
+      if message
+        p.auth-subtitle= message
+      else
+        p.auth-subtitle Liên kết xác thực không hợp lệ hoặc đã hết hạn.
+      .auth-actions.mt-4.d-flex.justify-content-center
+        a.btn-register.btn(href='/auth/register') Đăng ký lại
+        a.btn-login.btn.ms-3(href='/auth/login') Đến trang đăng nhập
