@@ -12,7 +12,14 @@ block main
                     .inner-info
                         .inner-name= u.fullName
                         .inner-buttons
+                            // Giữ nút Chấp nhận (Nút chính)
                             button.btn.btn-sm.btn-primary.mr-1(btn-accept-friend=u.id) Chấp nhận
                             button.btn.btn-sm.btn-secondary.mr-1(btn-refuse-friend=u.id) Xóa
                             button.btn.btn-sm.btn-secondary.mr-1(btn-deleted-friend disabled) Đã xóa
+                            button.btn.btn-sm.btn-primary.mr-1(btn-accepted-friend disabled) Đã chấp nhận
+                            // ĐÃ SỬA: Thay thế class nút "Xóa" bằng .btn-text-sm
+                            button.btn-text-sm(btn-refuse-friend=u.id) Xóa
+                            // ĐÃ SỬA: Thay thế class nút "Đã xóa" bằng .btn-text-sm
+                            button.btn-text-sm(btn-deleted-friend disabled) Đã xóa
+                            // Giữ nút "Đã chấp nhận" (Nút chính)
                             button.btn.btn-sm.btn-primary.mr-1(btn-accepted-friend disabled) Đã chấp nhận
