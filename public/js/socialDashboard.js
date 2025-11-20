@@ -188,6 +188,31 @@ socket.on('server-return-user-cancel-friend', data => {
 })
 // end server-return-user-cancel-friend
 
+// server-return-user-unfriend
+socket.on('server-return-user-unfriend', (data) => {
+    const { userID, unfriendID } = data;
+    const myId = document.querySelector('.inner-body').getAttribute('my-id');
+
+    // Xóa phòng chat của bạn bè vừa bị unfriend
+    const conversationEl = document.querySelector(`.conversation[data-room-id][data-friend-id='${userID}']`);
+    if (conversationEl) {
+        conversationEl.remove();
+    }
+
+    // Nếu đang mở room chat này, clear luôn inner-body
+    const chatBody = document.querySelector('.inner-body');
+    if (chatBody && chatBody.getAttribute('my-id') === myId) {
+        const currentRoomId = window.location.pathname.split('/')[1];
+        if (currentRoomId === conversationEl?.getAttribute('data-room-id')) {
+            chatBody.innerHTML = ''; // xoá tất cả tin nhắn
+            const listTyping = document.createElement('div');
+            listTyping.classList.add('inner-list-typing');
+            chatBody.appendChild(listTyping);
+        }
+    }
+});
+// end server-return-user-unfriend
+
 // server-return-user-status-online
 socket.on('server-return-user-status-online', data => {
     const dataUsersFriend = document.querySelector('[data-users-friend]')

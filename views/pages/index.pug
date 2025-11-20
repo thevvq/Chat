@@ -3,11 +3,18 @@ extends ../layouts/default.pug
 block contentList
     h4 Cuộc trò chuyện gần đây
     if rooms && rooms.length > 0
+        - const renderedFriends = [] 
         each room in rooms
             // Tìm user còn lại nếu là phòng bạn bè
             - var roomName = ''
             - var otherUser = null
             - var myId = (user && user.id) ? user.id.toString() : (user && user._id ? user._id.toString() : '')
+
+            - if (room.typeRoom === 'friend') {
+                - otherUser = room.users.find(u => u.user_id !== myId)
+                - if (renderedFriends.includes(otherUser.user_id)) continue
+                - renderedFriends.push(otherUser.user_id)
+            - }
 
             if room.typeRoom === 'friend' && room.users && room.users.length === 2
                 - otherUser = room.users.find(u => u.user_id_str !== myId)
@@ -17,7 +24,7 @@ block contentList
             else
                 - roomName = room.typeRoom || 'Phòng chat'
 
-            a(href=`/${room._id}` class='conversation' data-room-id=room._id)
+            a(href=`/${room._id}` class='conversation' data-room-id=room._id data-friend-id=(otherUser ? otherUser.user_id : ''))
                 // Chèn Avatar cho danh sách chat
                 if otherUser && otherUser.avatar
                     img(src=otherUser.avatar alt=roomName class='avatar')
@@ -47,14 +54,14 @@ block main
             for chat in chats
                 // Tin nhắn đi/đến (inner-outgoing/inner-incoming)
                 div(class=(chat.user_id == user.id ? 'inner-outgoing' : 'inner-incoming'))
-
+                    
                     if chat.user_id != user.id
                         // Thẻ Avatar
                         if chat.infoUser && chat.infoUser.avatar
                             img(src=chat.infoUser.avatar alt=chat.infoUser.fullName class='chat-avatar')
                         else
                             img(src='/images/default-avatar.jpg' alt='Avatar mặc định' class='chat-avatar')
-
+                    
                     // Thẻ bọc để nhóm Tên và Nội dung
                     .message-group 
                         if chat.user_id != user.id
@@ -62,32 +69,26 @@ block main
                                 .inner-name #{chat.infoUser.fullName}
                             else
                                 .inner-name Không rõ
-
+                        
                         if (chat.content)
                             .inner-content #{chat.content}
-
+                        
                         if chat.images && chat.images.length > 0
                             .inner-images
                                 for image in chat.images
                                     img(src=image alt="image" class="chat-image")
-
+            
             // Đảm bảo .inner-list-typing nằm trong .inner-body để cuộn theo tin nhắn
             .inner-list-typing
-
+        
         // .inner-foot: Chứa ô nhập. Nó phải nằm NGAY SAU .inner-body và CÙNG CẤP.
         .inner-foot
             form(class='inner-form' action='')
-                
-
                 input(type="text" placeholder='Nhập nội dung...' name='content' autocomplete="off")
-             
-                span(class='button-icon btn btn-light mx-2' title='Emoji') 
+                span(class='button-icon btn btn-light mx-2') 
                     i.fa-regular.fa-face-smile
-                
-                button(type='submit')
+                button
                     i.fa-solid.fa-paper-plane
 
-            
-            // Khối này đã được sửa lỗi cú pháp. Dùng JS để quản lý pop-up Emoji Picker.
             div(class='tooltip' role='tooltip')
                 emoji-picker

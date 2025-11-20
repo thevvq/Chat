@@ -94,11 +94,19 @@ module.exports = (io) => {
 
           let roomChat;
           if (hasUserIDBinA && hasUserIDAinB) {
-            roomChat = new RoomChat({
+            roomChat = await RoomChat.findOne({
               typeRoom: 'friend',
-              users: [{ user_id: userID }, { user_id: myUserID }]
+              users: { $all: [{ user_id: userID }, { user_id: myUserID }] }
             });
-            await roomChat.save();
+
+            if (!roomChat) {
+              roomChat = new RoomChat({
+                typeRoom: 'friend',
+                users: [{ user_id: userID }, { user_id: myUserID }]
+              });
+              await roomChat.save();
+            }
+
           }
 
           if (hasUserIDBinA) {
@@ -127,26 +135,20 @@ module.exports = (io) => {
 
       // --- Event: hủy kết bạn (unfriend) ---
       socket.on('client-unfriend', async (friendID) => {
-        try {
-          // Xóa bạn khỏi friendsList của cả 2 người
-          await User.updateOne(
-            { _id: myUserID },
-            { $pull: { friendsList: { user_id: friendID } } }
-          );
-          await User.updateOne(
-            { _id: friendID },
-            { $pull: { friendsList: { user_id: myUserID } } }
-          );
-          
-          // Gửi thông báo real-time cho friend
-          socket.broadcast.emit('server-return-user-unfriend', {
-            userID: friendID,   // người bị hủy
-            unfriendID: myUserID // người hủy
-          });
+        // Xóa friendsList
+        await User.updateOne({ _id: myUserID }, { $pull: { friendsList: { user_id: friendID } } });
+        await User.updateOne({ _id: friendID }, { $pull: { friendsList: { user_id: myUserID } } });
 
-        } catch (err) {
-          console.error('[socialSocket] client-unfriend error', err);
-        }
+        // Xóa room chat giữa 2 người
+        await RoomChat.deleteOne({
+            typeRoom: 'friend',
+            users: { $all: [{ user_id: friendID }, { user_id: myUserID }] }
+        });
+
+        socket.broadcast.emit('server-return-user-unfriend', {
+            userID: friendID,
+            unfriendID: myUserID
+        });
       });
 
 
