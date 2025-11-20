@@ -156,3 +156,56 @@ h1 {
         transform: translateY(0);
     }
 }
+
+/* ===== Scoped styles for verification feedback pages ===== */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 30px 16px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(255,255,255,0.98);
+    border-radius: 18px;
+    padding: 28px 32px;
+    box-shadow: 0 18px 40px rgba(2,6,23,0.35);
+    border: 1px solid rgba(0,0,0,0.06);
+    text-align: center;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.auth-icon {
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.auth-subtitle {
+    color: #374151;
+    font-size: 1rem;
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+.auth-actions { margin-top: 18px; }
+.auth-actions .btn { min-width: 140px; }
+
+/* Variants */
+.auth-card.auth-success h1 { color: #16a34a; }
+.auth-card.auth-success .auth-icon { color: #16a34a; }
+
+.auth-card.auth-error h1 { color: #dc2626; }
+.auth-card.auth-error .auth-icon { color: #dc2626; }
+
+.auth-card.auth-info h1 { color: #0369a1; }
+.auth-card.auth-info .auth-icon { color: #0369a1; }
+
+@media (max-width: 576px) {
+    .auth-card { padding: 20px; border-radius: 14px; }
+    .auth-icon { font-size: 40px; }
+    .auth-actions .btn { width: 100%; }
+}

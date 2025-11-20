@@ -1,0 +1,13 @@
+extends ../../layouts/auth.pug
+
+block main
+  .auth-wrapper
+    .auth-card.auth-info
+      .auth-icon(role='img' aria-hidden='true') ✉️
+      h1 Email xác thực đã được gửi
+      if message
+        p.auth-subtitle= message
+      else
+        p.auth-subtitle Vui lòng kiểm tra hộp thư của bạn và nhấp vào link để xác thực tài khoản.
+      .auth-actions.mt-4
+        a.btn.btn-login(href='/auth/login') Đến trang đăng nhập

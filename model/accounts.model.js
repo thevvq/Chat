@@ -15,6 +15,18 @@ const accountSchema = new mongoose.Schema(
             type: String,
             default: '/images/default-avatar.jpg'
         },
+        // ✅ Thêm 2 trường cho email verification
+        verifyToken: { type: String, default: null },
+        verified: { type: Boolean, default: false },
+        verified: {
+            type: Boolean,
+            default: false
+        },
+        verifyToken: {
+            type: String,
+            default: () => generate.generateRandomToken(40)
+        },
+
         friendRequests: Array,
         friendAccepts: Array,
         friendsList: [
@@ -38,3 +50,4 @@ const accountSchema = new mongoose.Schema(
 const Account = mongoose.model('Accounts', accountSchema, 'accounts')
 
 module.exports = Account
+
