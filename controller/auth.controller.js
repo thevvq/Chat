@@ -1,3 +1,21 @@
+require("dotenv").config();
+// Always prefer SERVER_URL for links in emails. If it's missing log a clear warning
+// and fall back to localhost with PORT so functionality still works.
+const _rawServerUrl = process.env.SERVER_URL;
+let serverUrl;
+if (!_rawServerUrl) {
+    console.warn('WARNING: process.env.SERVER_URL is not set. Using fallback http://localhost:<PORT> for email links. Set SERVER_URL in production.');
+    serverUrl = `http://localhost:${process.env.PORT || 3000}`;
+} else {
+    serverUrl = _rawServerUrl;
+    if (!/^https?:\/\//i.test(serverUrl)) {
+        console.warn('Notice: SERVER_URL does not include protocol. Prepending http:// to SERVER_URL.');
+        serverUrl = `http://${serverUrl}`;
+    }
+}
+serverUrl = serverUrl.replace(/\/$/, '');
+console.log('Using serverUrl for email links:', serverUrl);
+
 const User = require('../model/accounts.model');
 const md5 = require('md5');
 const sendEmail = require('../scripts/sendEmail');
@@ -21,7 +39,7 @@ module.exports.registerPost = async (req, res) => {
     await record.save();
 
     // Gửi email xác thực
-    const verifyLink = `http://localhost:${process.env.PORT}/auth/verify-email?token=${record.verifyToken}`;
+    const verifyLink = `${serverUrl}/auth/verify-email?token=${record.verifyToken}`;
     await sendEmail(
         record.email,
         'Xác thực tài khoản Chat App',
@@ -41,7 +59,7 @@ module.exports.verifyEmail = async (req, res) => {
     const user = await User.findOne({ verifyToken: token });
 
     if (!user) {
-        return res.render('pages/auth/verifyFailed', {
+        return res.render('pages/auth/verificationFailed', {
             pageTitle: 'Xác thực thất bại',
             message: 'Liên kết xác thực không hợp lệ hoặc đã hết hạn.'
         });
@@ -70,7 +88,7 @@ module.exports.resendEmail = async (req, res) => {
     }
 
     // Gửi lại email xác thực
-    const verifyLink = `http://localhost:${process.env.PORT}/auth/verify-email?token=${user.verifyToken}`;
+    const verifyLink = `${serverUrl}/auth/verify-email?token=${user.verifyToken}`;
     await sendEmail(
         user.email,
         'Xác thực tài khoản Chat App',
