@@ -26,8 +26,17 @@ block main
                     button.btn.btn-login(type="submit") Đăng ký
                     a.btn.btn-register(href="/auth/login") Đăng nhập
 
+            //- Hiển thị flash messages (không cần JS)
+            if messages && messages.error && messages.error.length
+                .mt-3.alert.alert-warning= messages.error[0]
+            if messages && messages.success && messages.success.length
+                .mt-3.alert.alert-success= messages.success[0]
+
 block script
     script(src="/js/toast.js")
-    if message
+    if messages && messages.error && messages.error.length
         script.
-            showToast("#{message}", "error");
+            showToast("#{messages.error[0]}", "error");
+    if messages && messages.success && messages.success.length
+        script.
+            showToast("#{messages.success[0]}", "success");
